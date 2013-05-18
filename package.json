@@ -1,0 +1,17 @@
+{
+  "name": "json-minus",
+  "description": "validate and prepare JSON Minus documents",
+  "keywords": ["json", "validate", "validation", "validator"],
+  "version": "0.0.1",
+  "main": "json-minus",
+  "dependencies": {},
+  "author": {
+    "name": "Will Conant",
+    "email": "will.conant@gmail.com",
+    "url": "http://willconant.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/willconant/json-minus"
+  }  
+}
