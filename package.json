@@ -2,7 +2,7 @@
   "name": "json-minus",
   "description": "validate and prepare JSON Minus documents",
   "keywords": ["json", "validate", "validation", "validator"],
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "json-minus",
   "dependencies": {},
   "author": {
