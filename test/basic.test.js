@@ -9,13 +9,15 @@ describe('JSONMinus', function() {
         'nonemptyString' : {type: 'string', match: /./},
         'anyNumber'      : {type: 'number'},
         'rangeNumber'    : {type: 'number', gt: 0, lte: 1},
-        'ar.x'           : {type: 'integer'}
+        'ar.x'           : {type: 'integer'},
+        'omitEmptyString': {type: 'string', omitEmpty: true}
     })
 
     var in1 = {nonemptyString: 'a', rangeNumber: 0.5}
     var in2 = {nonemptyString: '', rangeNumber: 0.5}
     var in3 = {nonemptyString: 'a', rangeNumber: 0}
     var in4 = {nonemptyString: 'a', rangeNumber: 0.5, oddProp: 1}
+    var in5 = {omitEmptyString: 'a'}
 
     it('should convert undefined to empty string for string types', function() {
         var out = validator(in1)
@@ -49,4 +51,9 @@ describe('JSONMinus', function() {
         var out = validator(in1)
         assert.ok(Array.isArray(out.ar) && out.ar.length === 0)
     })
+
+    it('should omit empty string when omitEmpty is true', function() {
+        var out = validator(in1)
+        assert.ok(typeof out.omitEmptyString === 'undefined')
+    });
 })

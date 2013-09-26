@@ -87,10 +87,31 @@ String values may be constrained by a `RegExp` provided in the `match` property 
 Numbers and integers may be constrainted with a combination of the properties `gt`, `gte`, `lt`, and `lte` of the property specification. These constratins are applied *after* type conversion.
 
 
+## Omitting Empty Strings ##
+
+There are some cases where you may prefer to completely omit a key from the validated copy if the value is an empty string. You can accomplish this with the `omitEmpty` option like this:
+
+    var CouchDoc = JSONMinus({
+        _id:   {type: 'string', omitEmpty: true},
+        _rev:  {type: 'string', omitEmpty: true},
+        value: {type: 'string'}
+    });
+
+Given the validator above,
+
+    CouchDoc({_id: 'abc', _rev: '', value: 'foo'})
+
+Produces:
+
+    {_id: 'abc', value: 'foo'}
+
+The `omitEmpty` option is applied at the very end after the property is coerced to a string and validated via the `match` regular expression.
+
+
 ## Author ##
 
 Will Conant, http://willconant.com/
 
 ## License ##
 
-The json-minus modules is released under the MIT License.
+The json-minus module is released under the MIT License.

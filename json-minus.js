@@ -65,9 +65,12 @@ function JSONMinus(propDefs) {
                 var cleanValue
                 try {
                     cleanValue = cleaner(value)
-                    if (propDef.type === 'string' && propDef.match instanceof RegExp) {
-                        if (!propDef.match.test(cleanValue)) {
+                    if (propDef.type === 'string') {
+                        if (propDef.match instanceof RegExp && !propDef.match.test(cleanValue)) {
                             throw new Error('must match ' + propDef.match.toString())
+                        }
+                        if (propDef.omitEmpty && cleanValue === '') {
+                            cleanValue = undefined
                         }
                     } else if (propDef.type === 'number' || propDef.type === 'integer') {
                         if (typeof propDef.gt === 'number' && cleanValue <= propDef.gt) {
@@ -90,6 +93,7 @@ function JSONMinus(propDefs) {
             })
 
             function process(fn) {
+                var cleanValue;
                 if (subprop) {
                     if (typeof copy[prop] === 'undefined') {
                         copy[prop] = []
@@ -100,11 +104,17 @@ function JSONMinus(propDefs) {
                         if (subdoc === null) {
                             error('must be an object')
                         } else {
-                            subdoc[subprop] = fn(i, subdoc[subprop])
+                            cleanValue = fn(i, subdoc[subprop])
+                            if (typeof cleanValue !== 'undefined') {
+                                subdoc[subprop] = cleanValue
+                            }
                         }
                     })
                 } else {
-                    copy[prop] = fn(null, copy[prop])
+                    cleanValue = fn(null, copy[prop])
+                    if (typeof cleanValue !== 'undefined') {
+                        copy[prop] = cleanValue
+                    }
                 }
             }
 
